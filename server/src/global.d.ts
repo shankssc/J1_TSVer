@@ -47,3 +47,10 @@ interface ItemInterface {
     item_pic?: string;
     price?: string;
 }
+
+interface AddUser {
+    username: string;
+    email: string;
+    password: string;
+    role: 'CUSTOMER' | 'BUSINESS_OWNER' | 'CARRIER' | 'ADMINISTRATOR';
+}
