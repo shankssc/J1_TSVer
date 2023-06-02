@@ -6,6 +6,7 @@ import { PubSub } from 'graphql-subscriptions'
 import { buildSchemaSync } from 'type-graphql';
 import { UserResolver } from '@api/user';
 
+
 dotenv.config();
 const pubsub = new PubSub()
 
