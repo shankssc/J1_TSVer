@@ -12,11 +12,18 @@ const { TOKEN_SECRET } = process.env;
 export default class Auth {
 
     static passwordHasher = async (password: string): Promise<string> => {
-        return bcrypt.hash(password, 12);
+      const saltRounds = 15;
+      const salt = bcrypt.genSaltSync(saltRounds);
+
+      // return bcrypt.hash(password, 12);
+
+      return bcrypt.hashSync(password, salt);
       };
 
     static passwordMatcher = async (password: string, storedPassword: string): Promise<boolean> => {
-        const isPasswordCorrect = await bcrypt.compare(password, storedPassword);
+        //const isPasswordCorrect = await bcrypt.compare(password, storedPassword);
+        const isPasswordCorrect = await bcrypt.compareSync(password, storedPassword);
+        
         return isPasswordCorrect;
       };
 

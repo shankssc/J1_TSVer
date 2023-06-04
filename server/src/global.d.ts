@@ -54,3 +54,14 @@ interface AddUser {
     password: string;
     role: 'CUSTOMER' | 'BUSINESS_OWNER' | 'CARRIER' | 'ADMINISTRATOR';
 }
+
+interface MenuPayload {
+    restaurant_name: string;
+    category_name: string;
+    subcategory_name: string;
+    item_name: string;
+    calories?: string;
+    type?: 'VEGAN' | 'VEG' | 'NON_VEG';
+    item_pic?: string;
+    price?: string;
+}

@@ -3,9 +3,9 @@ import express, { Application } from 'express';
 import mongoose, { ConnectOptions, Error } from 'mongoose';
 import  {ApolloServer }  from "apollo-server-express"
 import { PubSub } from 'graphql-subscriptions'
-import { buildSchemaSync } from 'type-graphql';
-import { UserResolver } from '@api/user';
-
+import { buildSchemaSync, AuthChecker } from 'type-graphql';
+// import { UserResolver } from '@api/user';
+import { UserResolver } from './api/user';
 
 dotenv.config();
 const pubsub = new PubSub()

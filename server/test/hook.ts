@@ -1,7 +1,16 @@
 import mongoose from 'mongoose';
-import {MONGODB_URI} from './env'
+import {MONGODB_URI, REDIS_HOST, REDIS_PORT} from './env'
+import Redis from 'ioredis';
 
 const uri = MONGODB_URI;
+
+/**
+ * Creating a Redis client instance and connecting it to the Redis server
+ */
+const redisClient = new Redis({
+  host: REDIS_HOST,
+  port: parseInt(REDIS_PORT!),
+});
 
 /**
  * Estabalishing a connection to the MongoDB Atlas cluster before running tests
@@ -9,6 +18,9 @@ const uri = MONGODB_URI;
 
 const setupMongo = async () => {
     await mongoose.connect(uri!);
+
+    // Set up Redis caching
+    redisClient.set('myKey', 'myValue');
 } 
 
 /**
@@ -17,6 +29,10 @@ const setupMongo = async () => {
 
 const teardownMongo = async () => {
     await mongoose.disconnect();
+
+    // Clean up Redis resources
+    await redisClient.flushall();
+    redisClient.quit();
 }
 
 /**

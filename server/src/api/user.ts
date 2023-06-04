@@ -7,10 +7,14 @@ import { ObjectType,
          Resolver,
          Mutation, 
          Arg,
-         Authorized } from 'type-graphql';
+         Authorized,
+         AuthChecker,
+         } from 'type-graphql';
 
-import User from '@models/user';
-import Auth from '@utils/Authentication';
+// import User from '@models/user';
+// import Auth from '@utils/Authentication';
+import User from '../models/user';
+import Auth from '../utils/Authentication';
 import { ApolloError } from "apollo-server-express";
 import { Document } from "mongoose";
 import { AddUser } from "global";
@@ -74,7 +78,12 @@ enum Role {
     CARRIER,
     ADMINISTRATOR,
 }
-  
+
+// Registering the role enum type
+registerEnumType(Role, {
+  name: 'Role',
+});
+
 // User type
 @ObjectType()
 class UserType {
@@ -135,7 +144,7 @@ class LogInInput {
 @Resolver()
 class UserResolver {
     @Query(() => UserType)
-    @Authorized()
+    
     async getUser(@Arg('id') id: string): Promise<UserType | null> {
         /*
         if (!context.userId) {
