@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev ./src/index.ts",
-    "test": "jest",
+    "test": "NODE_ENV=testing jest --no-cache --coverage --silent --passWithNoTests --detectOpenHandles --forceExit",
     "start": "node ./src/index.ts",
     "build": "npm-run-all clean tsc tsc-alias"
   },

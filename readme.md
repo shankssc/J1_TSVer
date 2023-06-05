@@ -34,3 +34,5 @@ Will update once I have the TS version of the frontend up and running
 ![Apollo-GraphQL](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=plastic&logo=apollo-graphql)
 ![Type-graphql](https://img.shields.io/badge/-TypeGraphQL-%23C04392?style=plastic)
 ![Mongoose](https://img.shields.io/badge/-Mongoose-%23C0392D?style=plastic&logo=mongodb)
+![JWT](https://img.shields.io/badge/JWT-black?style=plastic&logo=JSON%20web%20tokens)
+![Redis Badge](https://img.shields.io/badge/-Redis-%23DC382D?style=plastic&logo=redis&logoColor=white)

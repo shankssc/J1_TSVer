@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-import {MONGODB_URI, REDIS_HOST, REDIS_PORT} from './env'
+import {MONGODB_URI, REDIS_HOST, REDIS_PORT} from './env';
 import Redis from 'ioredis';
+
 
 const uri = MONGODB_URI;
 
@@ -38,16 +39,22 @@ const teardownMongo = async () => {
 /**
  * Defining Global Test hooks
  */
-beforeAll(async () => {
-    await setupMongo();
-  });
-  
-afterAll(async () => {
-    // Clearing all the mocks
-    jest.resetAllMocks();
 
-    // Clearing all test modules
-    jest.resetModules();
+export const hooks = () => {
+  beforeAll(async () => {
+      await setupMongo();
+    });
+    
+  afterAll(async () => {
+      // Clearing all the mocks
+      jest.resetAllMocks();
 
-    await teardownMongo();
-  });
+      // Clearing all test modules
+      jest.resetModules();
+
+      await teardownMongo();
+
+      // Clearing all the data stored in the cache
+      await redisClient.flushdb();
+    });
+}
