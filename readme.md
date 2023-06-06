@@ -4,6 +4,7 @@
 
 - [About](#about)
 - [Screenshots](#screenshots)
+- [Tech Stack](#💻-tech-stack)
 
 ## About
 
@@ -31,8 +32,29 @@ Will update once I have the TS version of the frontend up and running
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=plastic&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=plastic&logo=express&logoColor=%2361DAFB)
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=plastic&logo=mongodb&logoColor=white)
+![GraphQL](https://img.shields.io/badge/-GraphQL-%23E10098?style=plastic&logo=graphql&logoColor=white)
 ![Apollo-GraphQL](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=plastic&logo=apollo-graphql)
 ![Type-graphql](https://img.shields.io/badge/-TypeGraphQL-%23C04392?style=plastic)
 ![Mongoose](https://img.shields.io/badge/-Mongoose-%23C0392D?style=plastic&logo=mongodb)
 ![JWT](https://img.shields.io/badge/JWT-black?style=plastic&logo=JSON%20web%20tokens)
 ![Redis Badge](https://img.shields.io/badge/-Redis-%23DC382D?style=plastic&logo=redis&logoColor=white)
+![Jest](https://img.shields.io/badge/-Jest-%23C21325?style=plastic&logo=jest&logoColor=%23C21325&color=000000)
+
+## 📚 Overview
+
+### Backend
+
+The server is responsible for handling backend functionalities of the application. It serves (No pun intended) as the central component that processes requests from the client, interacts with the database and manages the business logic of the app
+
+### Technologies used
+
+- ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=plastic&logo=typescript&logoColor=white&color=E5177D&labelColor=000000): TS was chosen as it not only provides all the functionalities of base JS but also includes static typing and enhanced developer experience
+- ![GraphQL](https://img.shields.io/badge/-GraphQL-%23E5177D?style=plastic&logo=graphql&logoColor=%23E5177D&labelColor=000000)
+- ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=plastic&logo=node.js&logoColor=white&color=E5177D&labelColor=000000)
+- ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=plastic&logo=express&logoColor=%2361DAFB&color=E5177D&labelColor=000000)
+- ![Apollo-server](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=plastic&logo=apollo-graphql&color=E5177D&labelColor=000000)
+- ![TypeGraphQL](https://img.shields.io/badge/-TypeGraphQL-%23C04392?style=plastic&color=E5177D&labelColor=000000)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=plastic&logo=mongodb&logoColor=white&color=E5177D&labelColor=000000)
+- ![Mongoose](https://img.shields.io/badge/-Mongoose-%23C0392D?style=plastic&logo=mongodb&color=E5177D&labelColor=000000)
+- ![ioredis](https://img.shields.io/badge/-Redis-%23DC382D?style=plastic&logo=redis&logoColor=white&color=E5177D&labelColor=000000)
+- ![Jest](https://img.shields.io/badge/-Jest-%23000000?style=plastic&logo=jest&logoColor=%23C21325&color=E5177D&labelColor=000000)
