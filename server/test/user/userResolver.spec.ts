@@ -31,3 +31,35 @@ hooks();
 // Init mock request and response from interceptor
 const {mockRequest, mockResponse} = interceptor;
 
+describe('User Resolvers', () => {
+    it('should sign up a new user', async () => {
+        
+        // Defining the test data
+        const username = casual.username;
+        const email = casual.email;
+        const password =  casual.password;
+        const role = 'CUSTOMER';
+        let user;
+        let req:any;
+        let res:any;
+
+        // Preparing the user credentials before registering
+        const registerInput = {
+            username,
+            email,
+            password,
+            role,
+        }
+        
+        // Build and mock the test data before the testing
+        beforeAll(async () => {
+        // Create a user in user database table using factory
+        user = await factory.build('user', {username, email, password, role});
+
+        // Assignee the defined variables
+        req = mockRequest();
+        res = mockResponse();
+        })
+
+    })
+})

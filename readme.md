@@ -1,16 +1,17 @@
 # J1 (TS Ver)
 
-## Table of Contents
+## 📖 Table of Contents
 
-- [About](#about)
-- [Screenshots](#screenshots)
+- [About](#📝-about)
+- [Screenshots](#📸-screenshots)
 - [Tech Stack](#💻-tech-stack)
+- [Overview](#📚-overview)
 
-## About
+## 📝 About
 
 What is J1? is my attempt to make a full-stack food/grocery delivery mobile app resembling the UI and functionalities of Uber eats and DoorDash. The roles that come with the app are Customers, Business owners, Deliverers, and Administrators. Right now the app is in very initial stages but over time, I will add features and microservices necessary for a fully functional food delivery app.
 
-## Screenshots
+## 📸 Screenshots
 
 Will update once I have the TS version of the frontend up and running
 
@@ -48,13 +49,13 @@ The server is responsible for handling backend functionalities of the applicatio
 
 ### Technologies used
 
-- ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=plastic&logo=typescript&logoColor=white&color=E5177D&labelColor=000000): TS was chosen as it not only provides all the functionalities of base JS but also includes static typing and enhanced developer experience
-- ![GraphQL](https://img.shields.io/badge/-GraphQL-%23E5177D?style=plastic&logo=graphql&logoColor=%23E5177D&labelColor=000000)
-- ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=plastic&logo=node.js&logoColor=white&color=E5177D&labelColor=000000)
-- ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=plastic&logo=express&logoColor=%2361DAFB&color=E5177D&labelColor=000000)
-- ![Apollo-server](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=plastic&logo=apollo-graphql&color=E5177D&labelColor=000000)
-- ![TypeGraphQL](https://img.shields.io/badge/-TypeGraphQL-%23C04392?style=plastic&color=E5177D&labelColor=000000)
-- ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=plastic&logo=mongodb&logoColor=white&color=E5177D&labelColor=000000)
-- ![Mongoose](https://img.shields.io/badge/-Mongoose-%23C0392D?style=plastic&logo=mongodb&color=E5177D&labelColor=000000)
-- ![ioredis](https://img.shields.io/badge/-Redis-%23DC382D?style=plastic&logo=redis&logoColor=white&color=E5177D&labelColor=000000)
-- ![Jest](https://img.shields.io/badge/-Jest-%23000000?style=plastic&logo=jest&logoColor=%23C21325&color=E5177D&labelColor=000000)
+- ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=plastic&logo=typescript&logoColor=white&color=E5177D&labelColor=000000) TS was chosen as it not only provides all the functionalities of base JS but also includes static typing and enhanced developer experience.
+- ![GraphQL](https://img.shields.io/badge/-GraphQL-%23E5177D?style=plastic&logo=graphql&logoColor=%23E5177D&labelColor=000000) Using a query language for API specification comes with efficient data fetching and flexible data querying.
+- ![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=plastic&logo=node.js&logoColor=white&color=E5177D&labelColor=000000) The scalable and non-blocking runtime environment of Node.js is ideal for server-side development.
+- ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=plastic&logo=express&logoColor=%2361DAFB&color=E5177D&labelColor=000000) Using Express as a middleware to the apollo server.
+- ![Apollo-server](https://img.shields.io/badge/-ApolloGraphQL-311C87?style=plastic&logo=apollo-graphql&color=E5177D&labelColor=000000) Used for implementing a GraphQL powered server and for implementing schema generation, resolvers and data validation.
+- ![TypeGraphQL](https://img.shields.io/badge/-TypeGraphQL-%23C04392?style=plastic&color=E5177D&labelColor=000000) TypeGraphQL leverages TypeScript decorators and thus simplifies the process of building graphQL schemas and resolvers.
+- ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=plastic&logo=mongodb&logoColor=white&color=E5177D&labelColor=000000) MongoDB was chosen for the initial phases of the development due to it's flexibility, scalability and compatibility with GraphQL.
+- ![Mongoose](https://img.shields.io/badge/-Mongoose-%23C0392D?style=plastic&logo=mongodb&color=E5177D&labelColor=000000) Without a doubt the best ODM library for interacting with the database.
+- ![ioredis](https://img.shields.io/badge/-Redis-%23DC382D?style=plastic&logo=redis&logoColor=white&color=E5177D&labelColor=000000) Used as a redis client to interact with the redis server for caching, testing and data storage
+- ![Jest](https://img.shields.io/badge/-Jest-%23000000?style=plastic&logo=jest&logoColor=%23C21325&color=E5177D&labelColor=000000) Best testing framework for unit and integration testing when it comes to TS/JS and React
