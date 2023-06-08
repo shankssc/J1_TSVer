@@ -21,10 +21,10 @@ import { AddUser } from "global";
 
 // Enum definition
 enum Role {
-    CUSTOMER,
-    BUSINESS_OWNER,
-    CARRIER,
-    ADMINISTRATOR,
+    CUST="CUSTOMER",
+    OWN="BUSINESS_OWNER",
+    CAR="CARRIER",
+    ADMN="ADMINISTRATOR",
 }
 
 // Registering the role enum type
@@ -145,7 +145,8 @@ class UserResolver {
             //return { id: user.id, ...user.toObject() };
             return {...user.toObject()}
 
-          } catch (error) {
+          } catch (error:any) {
+            console.log(error);
             throw new ApolloError('User creation failed');
           }
     }

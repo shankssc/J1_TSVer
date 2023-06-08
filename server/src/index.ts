@@ -46,13 +46,14 @@ const InitServer = async () => {
         */
 
         await mongoose.connect(process.env.CONNECTION_URL!);
-        console.log('Mongoose connection was successful');
+        // console.log('Mongoose connection was successful');
             
     } catch (error:any) {
         console.log(error.message);
     }
 
     app.listen(process.env.PORT || 3000, () => console.log("Server is running sucessfully"));
+    
 };
 
 InitServer();
