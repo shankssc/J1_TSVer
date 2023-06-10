@@ -50,8 +50,8 @@ class UserType {
   @Field()
   password!: string;
 
-  @Field(() => Role)
-  role!: Role;
+  @Field(() => Role, {nullable: true})
+  role?: Role;
 
   @Field({ nullable: true })
   token?: string;
@@ -165,9 +165,9 @@ class UserResolver {
           throw new ApolloError('user not found please try again')
         }
 
-        const passcheck = Auth.passwordMatcher(password, activeUser.password)
+        const passcheck = await Auth.passwordMatcher(password, activeUser.password)
 
-        if (!passcheck) {
+        if (passcheck === false) {
           throw new ApolloError('Invalid password please try again')
         }
 

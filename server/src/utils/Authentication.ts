@@ -24,7 +24,9 @@ export default class Auth {
         //const isPasswordCorrect = await bcrypt.compare(password, storedPassword);
         const isPasswordCorrect = await bcrypt.compareSync(password, storedPassword);
         
-        return isPasswordCorrect;
+        return isPasswordCorrect
+        
+        
       };
 
     static generateToken = async ({username, email, userId,}: {username: string; email: string; userId: string; }): Promise<string> => {
