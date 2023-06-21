@@ -9,13 +9,15 @@ import { ObjectType,
          Arg,
          Authorized,
          AuthChecker,
+         Ctx
          } from 'type-graphql';
 
 import User from '../models/user';
 import Restaurant from '../models/restaurant';
 import Auth from '../utils/Authentication';
-import { ApolloError } from "apollo-server-express";
+import { ApolloError, UserInputError } from "apollo-server-express";
 import { query } from "express";
+import { Context } from "../global";
 
 // Enum definition
 enum Item_type {
@@ -220,6 +222,45 @@ class RestResolver {
         ])
 
         return MenuItems.map(item =>item.toObject());
+    }
+
+    @Mutation(() => RestaurantType)
+    async createRestaurant(@Arg('restaurantInput') restaurantInput:RegisteringRestaurants,
+                                                  @Ctx() context: Context): Promise<RestaurantType> {
+      const {name, phone, address } = restaurantInput;
+
+      // const verifiedUser = await Auth.verifyToken(context,process.env.TOKEN_SECRET);
+      
+      const verifiedUser = context.user;
+      
+      if (!verifiedUser) {
+        throw new ApolloError('Session expired');
+      }
+
+      const presentUser = await User.findOne({uid:verifiedUser.id});
+
+      if (presentUser?.role !== 'BUSINESS_OWNER') {
+        throw new ApolloError('Only Business owners can create a restaurant page');
+      }
+
+      try {
+        const restaurant = new Restaurant({
+          name: name,
+          phone: phone,
+          owner: presentUser.username,
+          address: address
+        })
+
+        await restaurant.save();
+
+        console.log('New restaurant created successfully');
+
+        return {...restaurant.toObject()};
+      }
+
+      catch {
+        throw new UserInputError('Restaurant creation failed');
+      }
     }
 }
 

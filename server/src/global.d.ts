@@ -1,4 +1,5 @@
 import {Document} from 'mongoose';
+import { Request } from 'express';
 
 interface UserInterface extends Document {
     uid: string;
@@ -64,4 +65,14 @@ interface MenuPayload {
     type?: 'VEGAN' | 'VEG' | 'NON_VEG';
     item_pic?: string;
     price?: string;
+}
+
+interface Context {
+    req: Request;
+    user: {
+        id: string;
+        username: string;
+        token: string;
+        // Add any other user-related properties you need
+    };
 }

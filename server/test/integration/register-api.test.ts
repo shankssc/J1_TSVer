@@ -106,7 +106,154 @@ describe('UserResolver', () => {
         );
     })
 
-    
+    it('Should throw an error if username is missing from the provided fields', async () => {
+      const email = casual.email;
+      const password = casual.password;
+      const role = casual.random_element(roleOptions);
+
+      // Generating request body using random values from casual
+      const body: any = {
+        email: email,
+        password: password,
+        randomRole: role
+      }
+
+      // Attempting to register a user
+      const response = await request(server)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+              signup(registerInput: {
+                email: "${body.email}",
+                password: "${body.password}",
+                role: "${body.randomRole}"
+              }) {
+                username
+                email
+                token
+              }
+            }
+          `,
+        });
+
+      // Asserting the response data
+      expect(response.status).toBe(400);
+      expect(response.body.errors.length).toBeGreaterThan(0);
+      expect(response.body.errors[0].message).toBe("Field 'registerInput.username' is required.");
+    })
+
+    it('Should throw an error if email is missing from the provided fields', async () => {
+      const username = casual.username;
+      const password = casual.password;
+      const role = casual.random_element(roleOptions);
+
+      // Generating request body using random values from casual
+      const body: any = {
+        username: username,
+        password: password,
+        randomRole: role
+      }
+
+      // Attempting to register a user
+      const response = await request(server)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+              signup(registerInput: {
+                username: "${body.username}",
+                password: "${body.password}",
+                role: "${body.randomRole}"
+              }) {
+                username
+                email
+                token
+              }
+            }
+          `,
+        });
+
+      // Asserting the response data
+      expect(response.status).toBe(400);
+      expect(response.body.errors.length).toBeGreaterThan(0);
+      expect(response.body.errors[0].message).toBe("Field 'registerInput.email' is required.");
+    })
+
+    it('Should throw an error if password is missing from the provided fields', async () => {
+      const username = casual.username;
+      const email = casual.email;
+      const role = casual.random_element(roleOptions);
+
+      // Generating request body using random values from casual
+      const body: any = {
+        username: username,
+        email: email,
+        randomRole: role
+      }
+
+      // Attempting to register a user
+      const response = await request(server)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+              signup(registerInput: {
+                username: "${body.username}",
+                email: "${body.email}",
+                role: "${body.randomRole}"
+              }) {
+                username
+                email
+                token
+              }
+            }
+          `,
+        });
+
+      // Asserting the response data
+      expect(response.status).toBe(400);
+      expect(response.body.errors.length).toBeGreaterThan(0);
+      expect(response.body.errors[0].message).toBe("Field 'registerInput.password' is required.");
+    })
+
+  
+    it('Should throw an error if no role is provided', async () => {
+      const username = casual.username;
+      const email = casual.email;
+      const password = casual.password;
+
+      // Generating request body using random values from casual
+      const body: any = {
+        username: username,
+        email: email,
+        password: password
+      }
+
+      // Attempting to register a user
+      const response = await request(server)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+              signup(registerInput: {
+                username: "${body.username}",
+                email: "${body.email}",
+                password: "${body.password}"
+              }) {
+                username
+                email
+                token
+              }
+            }
+          `,
+        });
+
+      // Asserting the response data
+      expect(response.status).toBe(400);
+      expect(response.body.errors.length).toBeGreaterThan(0);
+      expect(response.body.errors[0].message).toBe("Field 'registerInput.role' is required.");
+    })
 })
 
 
