@@ -15,9 +15,10 @@ import { ObjectType,
 import User from '../models/user';
 import Restaurant from '../models/restaurant';
 import Auth from '../utils/Authentication';
+import Rest from '../utils/Restaurant';
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { query } from "express";
-import { Context } from "../global";
+import { Context, MenuPayload } from "../global";
 
 // Enum definition
 enum Item_type {
@@ -136,7 +137,7 @@ class AddingItems {
   restaurant_name!: string;
 
   @Field()
-  name!: string;
+  item_name!: string;
 
   @Field()
   calories!: string;
@@ -152,6 +153,9 @@ class AddingItems {
 
   @Field()
   subcategory!: string;
+
+  @Field({ nullable: true })
+  item_pic?: string
 }
 
 @InputType()
@@ -160,7 +164,7 @@ class DeletingItems {
   restaurant_name!: string;
 
   @Field()
-  name!: string;
+  item_name!: string;
 
   @Field()
   category!: string;
@@ -258,10 +262,127 @@ class RestResolver {
         return {...restaurant.toObject()};
       }
 
-      catch {
+      catch (err:any) {
         throw new UserInputError('Restaurant creation failed');
+        console.log(err);
       }
     }
+
+    @Mutation(() => String)
+    async addMenuCategory(@Arg('categoryInput') categoryInput: AddingCategory,
+                                                @Ctx() context: Context): Promise<String> {
+      
+      const {restaurant_name, category_name} = categoryInput;
+
+      const verifiedUser = context.user;
+
+      if (!verifiedUser) {
+        throw new ApolloError('Session expired');
+      }
+
+      const restaurant = await Restaurant.findOne({name: restaurant_name});
+
+      if (!restaurant) {
+        throw new UserInputError('Invalid restaurant name, please try again');
+      }
+
+      try {
+        await Rest.addCategory(Restaurant,restaurant_name,category_name);
+
+        return 'Category addition sucessful'
+      }
+
+      catch (error) {
+        console.log('Category addition failed', error);
+        throw new ApolloError('Failed to add category');
+      }
+    }
+
+    @Mutation(() => String)
+    async AddMenuSubCategory(@Arg('subCategoryInput') subCategoryInput: AddingSubCategory,
+                                                      @Ctx() context: Context): Promise<String> {
+      const {restaurant_name, category_name, subcategory_name} = subCategoryInput;
+      
+      const verifiedUser = context.user;
+
+      if (!verifiedUser) {
+        throw new ApolloError('Session expired');
+      }
+
+      const restaurant = await Restaurant.findOne({name: restaurant_name});
+
+      if (!restaurant) {
+        throw new UserInputError('Invalid restaurant name, please try again');
+      }
+
+      try {
+        await Rest.addSubCategory(Restaurant, restaurant_name, category_name, subcategory_name);
+
+        return 'Sub-category addition sucessful'
+      }
+
+      catch (error) {
+        console.log('Sub-category addition failed', error);
+        throw new ApolloError('Failed to add subcategory');
+      }
+    }
+
+    @Mutation(() => Item)
+    async addMenuItem(@Arg('menuItemInput') menuItemInput: AddingItems,
+                      @Ctx() context: Context): Promise<Item> {
+      
+      const { restaurant_name, 
+              item_name, 
+              calories, 
+              type, 
+              price, 
+              category, 
+              subcategory,
+              item_pic} = menuItemInput;
+      
+      const verifiedUser = context.user;
+
+      if (!verifiedUser) {
+        throw new ApolloError('Session expired');
+      }
+
+      const restaurant = await Restaurant.findOne({name: restaurant_name});
+
+      if (!restaurant) {
+        throw new UserInputError('Invalid restaurant name, please try again');
+      }
+
+      const payload:MenuPayload = {
+              restaurant_name, 
+              category_name:category, 
+              subcategory_name: subcategory, 
+              item_name, 
+              calories, 
+              type, 
+              item_pic, 
+              price
+      }
+
+      try {
+        const result = Rest.addMenuItem(Restaurant,payload);
+
+        const addedItem: Item = {
+          item_name,
+          calories,
+          type,
+          price,
+          _id: result._id,
+          uid: result.uid
+        }
+
+        return addedItem
+      }
+
+      catch (error) {
+        console.log('Menu item addition failed', error);
+        throw new ApolloError('Failed to add menu item');
+      }
+      }
 }
 
 export {RestResolver};

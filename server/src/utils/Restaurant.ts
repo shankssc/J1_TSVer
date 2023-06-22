@@ -69,6 +69,52 @@ export default class Rest {
     }
 
     static addMenuItem = async (restaurant: Model<RestaurantInterface>,payload:MenuPayload) => {
-        
+        const {restaurant_name, 
+               category_name, 
+               subcategory_name, 
+               item_name, 
+               calories, 
+               type, 
+               item_pic, 
+               price} = payload;
+
+        const duplicateItem = await restaurant.findOne(
+            {name: restaurant_name,
+            "menu.category_name": category_name,
+            "menu.subcategory.subcategory_name": subcategory_name,
+            "menu.subcategory.item": {
+                "$elemMatch": {"item_name": {"$in": item_name}}}}      
+        )
+
+        if (duplicateItem !== null) {
+            throw new UserInputError("This item was already added for this subcategory");
+        }
+
+        else {
+            return restaurant.updateOne({
+                name: restaurant_name
+              },
+              {
+                "$push": {
+                  "menu.$[outer].subcategory.$[inner].item": {
+                    "item_name": item_name,
+                    "calories": calories,
+                    "type": type,
+                    "price": price
+                  },
+                  
+                }
+              },
+              {
+                "arrayFilters": [
+                  {
+                    "outer.category_name": category_name
+                  },
+                  {
+                    "inner.subcategory_name": subcategory_name
+                  }
+                ]
+              })
+        }
     }
 }

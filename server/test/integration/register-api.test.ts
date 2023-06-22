@@ -254,6 +254,46 @@ describe('UserResolver', () => {
       expect(response.body.errors.length).toBeGreaterThan(0);
       expect(response.body.errors[0].message).toBe("Field 'registerInput.role' is required.");
     })
+
+    it('Should throw an error if an invalid role is provided', async () => {
+      const username = casual.username;
+      const email = casual.email;
+      const password = casual.password;
+      const role = 'OTHER';
+
+      // Generating request body using random values from casual
+      const body: any = {
+        username: username,
+        email: email,
+        password: password,
+        role: role
+      }
+
+      // Attempting to register a user
+      const response = await request(server)
+        .post('/graphql')
+        .send({
+          query: `
+            mutation {
+              signup(registerInput: {
+                username: "${body.username}",
+                email: "${body.email}",
+                password: "${body.password}",
+                role: "${body.role}"
+              }) {
+                username
+                email
+                token
+              }
+            }
+          `,
+        });
+
+      // Asserting the response data
+      expect(response.status).toBe(400);
+      expect(response.body.errors.length).toBeGreaterThan(0);
+      expect(response.body.errors[0].message).toBe("Field 'registerInput.role' is required.");
+    })
 })
 
 
