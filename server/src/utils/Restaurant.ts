@@ -1,7 +1,11 @@
 import dotenv from 'dotenv';
 import { Model } from 'mongoose';
-import { UserInterface, RestaurantInterface, MenuPayload } from '../global';
+import { UserInterface, 
+         RestaurantInterface, 
+         MenuPayload,
+         DeleteMenuItemPayload } from '../global';
 import { UserInputError } from 'apollo-server-express';
+import restaurant from '@models/restaurant';
 
 dotenv.config();
 
@@ -117,4 +121,44 @@ export default class Rest {
               })
         }
     }
+
+    static deleteMenuItem = async (restaurant:Model<RestaurantInterface>, payload:DeleteMenuItemPayload) => {
+        const {restaurant_name,
+               item_name,
+               category_name,
+               subcategory_name} = payload;
+
+        const ItemCheck = await restaurant.findOne({
+            name: restaurant_name,
+            "menu.subcategory.subcategory_name": subcategory_name,
+            "menu.subcategory.item": {
+            "$elemMatch": {"item_name": item_name}}
+        })
+
+        if (ItemCheck == null) {
+            throw new UserInputError("This item doesn't exist!")
+        }
+
+        else {
+            return await restaurant.findByIdAndUpdate(
+                {name: restaurant_name},
+                {
+                    "$pull": {
+                        "menu.$[outer].subcategory.$[inner].item": {
+                          "item_name": name
+                        },
+                    }
+                },
+                {
+                    "arrayFilters": [
+                      {
+                        "outer.category_name": category_name
+                      },
+                      {
+                        "inner.subcategory_name": subcategory_name
+                      }
+                    ]
+                })
+            }
+        }
 }

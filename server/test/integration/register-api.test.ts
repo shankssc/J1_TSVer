@@ -294,6 +294,8 @@ describe('UserResolver', () => {
       expect(response.body.errors.length).toBeGreaterThan(0);
       expect(response.body.errors[0].message).toBe("Field 'registerInput.role' is required.");
     })
+
+    
 })
 
 

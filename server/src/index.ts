@@ -6,6 +6,7 @@ import { PubSub } from 'graphql-subscriptions'
 import { buildSchemaSync, AuthChecker } from 'type-graphql';
 // import { UserResolver } from '@api/user';
 import { UserResolver } from './api/user';
+import { RestResolver } from './api/restaurant';
 import middleware from './utils/Middleware';
 
 dotenv.config();
@@ -16,7 +17,7 @@ const InitServer = async () => {
 
     // Building the schema
     const schema = buildSchemaSync({
-        resolvers: [UserResolver],
+        resolvers: [UserResolver, RestResolver],
     }) 
 
     const server = new ApolloServer({

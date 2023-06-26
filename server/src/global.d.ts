@@ -67,6 +67,13 @@ interface MenuPayload {
     price?: string;
 }
 
+interface DeleteMenuItemPayload {
+    restaurant_name: string;
+    item_name: string;
+    category_name: string;
+    subcategory_name: string;
+}
+
 interface Context {
     req: Request;
     user: {

@@ -18,7 +18,7 @@ import Auth from '../utils/Authentication';
 import Rest from '../utils/Restaurant';
 import { ApolloError, UserInputError } from "apollo-server-express";
 import { query } from "express";
-import { Context, MenuPayload } from "../global";
+import { Context, MenuPayload, DeleteMenuItemPayload } from "../global";
 
 // Enum definition
 enum Item_type {
@@ -201,8 +201,8 @@ class RestResolver {
         return restaurant ? restaurant.toObject() : null;
     }
 
-    @Query(() => ItemInp)
-    async getItems(@Arg('inp') inp: ItemInp): Promise<ItemInp[]> {
+    @Query(() => [Item])
+    async getItems(@Arg('inp') inp: ItemInp): Promise<Item[]> {
         const {restaurant_name,category_name,subcategory_name} = inp;
         const MenuItems = await Restaurant.aggregate([
             {$unwind: "$menu"},
@@ -327,9 +327,9 @@ class RestResolver {
       }
     }
 
-    @Mutation(() => Item)
+    @Mutation(() => String)
     async addMenuItem(@Arg('menuItemInput') menuItemInput: AddingItems,
-                      @Ctx() context: Context): Promise<Item> {
+                      @Ctx() context: Context): Promise<String> {
       
       const { restaurant_name, 
               item_name, 
@@ -366,23 +366,52 @@ class RestResolver {
       try {
         const result = Rest.addMenuItem(Restaurant,payload);
 
-        const addedItem: Item = {
-          item_name,
-          calories,
-          type,
-          price,
-          _id: result._id,
-          uid: result.uid
-        }
-
-        return addedItem
+        return 'Menu item addition was successful'
       }
 
       catch (error) {
         console.log('Menu item addition failed', error);
         throw new ApolloError('Failed to add menu item');
       }
-      }
+    }
+
+    @Mutation(() => String)
+    async deleteMenuItem(@Arg('delItemInput') delItemInput: DeletingItems,
+                         @Ctx() context: Context): Promise<String> {
+        const { restaurant_name,
+                item_name,
+                category,
+                subcategory} = delItemInput
+    
+        const verifiedUser = context.user;
+
+        if (!verifiedUser) {
+          throw new ApolloError('Session expired');
+        }
+        
+        const restaurant = await Restaurant.findOne({name: restaurant_name});
+
+        if (!restaurant) {
+          throw new UserInputError('Invalid restaurant name, please try again');
+        }
+
+        const payload:DeleteMenuItemPayload = {
+          restaurant_name,
+          item_name,
+          category_name:category,
+          subcategory_name: subcategory
+        }
+
+        try {
+            const result = Rest.deleteMenuItem(Restaurant, payload);
+
+            return 'Menu item was deleted succesfully';
+        } catch (error) {
+            console.log('Menu item deletion failed', error);
+            throw new ApolloError('Failed to delete menu item');
+        }
+    }
+  
 }
 
 export {RestResolver};
