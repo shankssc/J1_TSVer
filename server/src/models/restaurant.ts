@@ -14,11 +14,9 @@ const restaurantSchema:Schema<RestaurantInterface> = new mongoose.Schema<Restaur
     address: {type: String, required: true},
     menu: [{
         uid: {type: String, default:uuid.v4, unique: true},
-        id: {type: String, unique: true},
         category_name: {type: String},
         subcategory: [{
-            uid: {type: String, default:uuid.v4},
-            id: {type: String, unique: true},
+            uid: {type: String, default:uuid.v4, unique: true},
             subcategory_name: {type: String, unique: true},
             item: [{
                 uid: {type: String, default:uuid.v4, unique:true},

@@ -247,11 +247,13 @@ class RestResolver {
         throw new ApolloError('Only Business owners can create a restaurant page');
       }
 
+      console.log(presentUser);
+
       try {
         const restaurant = new Restaurant({
           name: name,
           phone: phone,
-          owner: presentUser.username,
+          owner: presentUser._id,
           address: address
         })
 
@@ -263,8 +265,8 @@ class RestResolver {
       }
 
       catch (err:any) {
-        throw new UserInputError('Restaurant creation failed');
         console.log(err);
+        throw new UserInputError('Restaurant creation failed');
       }
     }
 

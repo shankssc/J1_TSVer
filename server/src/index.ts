@@ -22,7 +22,8 @@ const InitServer = async () => {
 
     const server = new ApolloServer({
         schema,
-        context: middleware
+        context: middleware,
+        introspection: true,
 
     })
 
