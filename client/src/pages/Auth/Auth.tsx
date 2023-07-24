@@ -1,11 +1,9 @@
-import { View, TextInput } from 'react-native';
+import { View, TextInput, TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
 import {
   Select,
   SelectItem,
   Text,
-  Icon,
-  IconElement,
   IndexPath,
   Layout,
   Card,
@@ -16,6 +14,8 @@ import {
   Button
 } from '@ui-kitten/components';
 import styles from './styles';
+import { Ionicons } from '@expo/vector-icons';
+
 
 const Auth = ({ navigation }: any) => {
   const roles = [
@@ -25,9 +25,9 @@ const Auth = ({ navigation }: any) => {
     { label: 'Administrator', value: '4' },
   ];
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignup, setIsSignup] = useState(true);
-  const [dropdown, setDropdown] = useState(null);
+  const [showPassword, setShowPassword] = React.useState(true);
+  const [isSignup, setIsSignup] = React.useState(true);
+  const [dropdown, setDropdown] = React.useState(null);
 
   const useToggleState = (initialState = false): ToggleProps => {
     const [checked, setChecked] = React.useState(initialState);
@@ -42,20 +42,33 @@ const Auth = ({ navigation }: any) => {
 
   const authToggleState = useToggleState();
 
-  const CustIcon = (props: any): IconElement => (
-    <Icon {...props} name="person-outline" />
+    const CustIcon = (props: any) => (
+    <Ionicons {...props} name="person-outline" size="30"/>
+  );
+  
+  const toggleSecureEntry = (): void => {
+    setShowPassword(!showPassword);
+  };
+
+  const renderPassIcon = (props: any) => {
+    return (
+    <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+      <Ionicons {...props}
+       name={showPassword ? 'eye-off' : 'eye'} size="55"/>
+    </TouchableWithoutFeedback>
+    )
+  }
+
+  const OwnerIcon = (props: any) => (
+    <Ionicons {...props} name="briefcase-outline" size="30"/>
   );
 
-  const OwnerIcon = (props: any): IconElement => (
-    <Icon {...props} name="briefcase-outline" />
+  const CarriIcon = (props: any) => (
+    <Ionicons {...props} name="car-outline" size="30"/>
   );
 
-  const CarriIcon = (props: any): IconElement => (
-    <Icon {...props} name="car-outline" />
-  );
-
-  const AdminIcon = (props: any): IconElement => (
-    <Icon {...props} name="shield-outline" />
+  const AdminIcon = (props: any) => (
+    <Ionicons {...props} name="shield-outline" size="30"/>
   );
 
   const [selectedIdx, setSelectedIdx] = React.useState<IndexPath | IndexPath[]>(
@@ -79,7 +92,7 @@ const Auth = ({ navigation }: any) => {
 
         <Input style={styles.input} label="email" placeholder="Enter an email" />
 
-        <Input style={styles.input} label="password" placeholder="Enter a password" />
+        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword}/>
 
         <Input style={styles.input} label="confirm password" placeholder="Repeat your password" />
 
@@ -89,11 +102,28 @@ const Auth = ({ navigation }: any) => {
           style={styles.select}
           selectedIndex={selectedIdx}
           onSelect={(index) => setSelectedIdx(index)}
+          placeholder="Purpose"
         >
-          <SelectItem title="Customer" accessoryLeft={CustIcon} />
-          <SelectItem title="Owner" accessoryLeft={OwnerIcon} />
-          <SelectItem title="Carrier" accessoryLeft={CarriIcon} />
-          <SelectItem title="Administrator" accessoryLeft={AdminIcon} />
+          <SelectItem
+            title="Customer"
+            accessoryLeft={CustIcon}
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+          />
+          <SelectItem
+            title="Owner"
+            accessoryLeft={OwnerIcon}
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+          />
+          <SelectItem
+            title="Carrier"
+            accessoryLeft={CarriIcon}
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+          />
+          <SelectItem
+            title="Administrator"
+            accessoryLeft={AdminIcon}
+            style={{ flexDirection: 'row', alignItems: 'center' }}
+          />
         </Select>
 
         <Button
