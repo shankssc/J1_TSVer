@@ -98,6 +98,7 @@ const Auth = ({ navigation }: any) => {
 
         <Button 
         appearance='filled'
+        style={styles.button}
         >
           SUBMIT
         </Button>
