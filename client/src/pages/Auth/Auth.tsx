@@ -13,6 +13,7 @@ import {
   Toggle,
   ToggleProps,
   Input,
+  Button
 } from '@ui-kitten/components';
 import styles from './styles';
 
@@ -94,6 +95,12 @@ const Auth = ({ navigation }: any) => {
           <SelectItem title="Carrier" accessoryLeft={CarriIcon} />
           <SelectItem title="Administrator" accessoryLeft={AdminIcon} />
         </Select>
+
+        <Button
+        appearance='filled'
+        >
+          Submit
+        </Button>
       </Card>
     </Layout>
   );
