@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems: 'stretch',
         overflow: "hidden",
-        marginBottom: 60
+        
     },
 
     container: {
@@ -33,6 +33,12 @@ const styles = StyleSheet.create({
         marginTop: 12,
         marginBottom: 12,
         paddingBottom: 10
+    },
+
+    button: {
+        marginTop: 12,
+        marginBottom: 12,
+        paddingBottom: 10 
     }
 })
 

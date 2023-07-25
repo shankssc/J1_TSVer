@@ -18,16 +18,40 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 const Auth = ({ navigation }: any) => {
+
   const roles = [
-    { label: 'Customer', value: '1' },
+    { label: 'Customer', value: 'CUST' },
     { label: 'Business owner', value: '2' },
     { label: 'Carrier', value: '3' },
     { label: 'Administrator', value: '4' },
   ];
 
-  const [showPassword, setShowPassword] = React.useState(true);
+  interface RegFormState {
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+  }
+
+  interface LogFormState {
+    username: string;
+    password: string;
+  }
+
+  const [showPassword, setShowPassword] = React.useState<boolean>(true);
   const [isSignup, setIsSignup] = React.useState(true);
-  const [dropdown, setDropdown] = React.useState(null);
+  
+  const [regFormState, setRegFormState] = useState<RegFormState>({
+    username: '',
+    email: '',
+    password: '',
+    role: ''
+  });
+
+  const [logFormState, setLogFormState] = useState<LogFormState>({
+    username: '',
+    password: ''
+  });
 
   const useToggleState = (initialState = false): ToggleProps => {
     const [checked, setChecked] = React.useState(initialState);
@@ -74,6 +98,16 @@ const Auth = ({ navigation }: any) => {
   const [selectedIdx, setSelectedIdx] = React.useState<IndexPath | IndexPath[]>(
     new IndexPath(0)
   );
+  
+  const onRoleSelect = (index: IndexPath | IndexPath[]): void => {
+    if (Array.isArray(index)) {
+      // If multiple items can be selected, handle accordingly (e.g., in a multi-select scenario)
+    } else {
+      // For a single select scenario, update the role value
+      const selectedRole = roles[index.row].value;
+      setRegFormState({ ...regFormState, role: selectedRole });
+    }
+  };
 
   return (
     <Layout style={styles.container}>
@@ -88,13 +122,20 @@ const Auth = ({ navigation }: any) => {
 
         <Toggle status="info" {...authToggleState} />
 
-        <Input style={styles.input} label="username" placeholder="Enter a username" />
+        
+        <Input style={styles.input} label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} />
 
-        <Input style={styles.input} label="email" placeholder="Enter an email" />
+        {isSignup && (
+        <>
+        <Input style={styles.input} label="email" placeholder="Enter an email" value={regFormState.email} />
+        </>
+        )}
 
-        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword}/>
-
-        <Input style={styles.input} label="confirm password" placeholder="Repeat your password" />
+        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} value={isSignup ? regFormState.password : logFormState.password}/>
+        
+        {isSignup && (
+        <>
+        <Input style={styles.input} label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword}/>
 
         <Select
           label="Role"
@@ -125,9 +166,12 @@ const Auth = ({ navigation }: any) => {
             style={{ flexDirection: 'row', alignItems: 'center' }}
           />
         </Select>
+        </>
+        )}
 
         <Button
         appearance='filled'
+        style={styles.button}
         >
           Submit
         </Button>
