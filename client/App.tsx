@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { LogBox } from 'react-native';
+import { LogBox, AppRegistry } from 'react-native';
 import globalStyles from './src/styles/globalStyles';
 import * as eva from '@eva-design/eva';
+import { ApolloProvider } from '@apollo/client';
 import { ApplicationProvider, Layout, Text} from '@ui-kitten/components';
 import {default as theme} from './src/styles/custom-theme-2.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from './src/pages/Auth/Auth';
+import client from './src/services/apollo-client';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +21,7 @@ LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
+    <ApolloProvider client={client}>
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
@@ -25,5 +29,8 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>
+    </ApolloProvider>
   );
 }
+
+AppRegistry.registerComponent('MyApplication', () => App);

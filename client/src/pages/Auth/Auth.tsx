@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
 import {
   Select,
@@ -15,37 +15,39 @@ import {
 } from '@ui-kitten/components';
 import styles from './styles';
 import { Ionicons } from '@expo/vector-icons';
-
+import { CustIcon,OwnerIcon,CarriIcon,AdminIcon } from './Icons';
+import { useMutation, gql } from '@apollo/client';
+// import { RegFormState, LogFormState, Role } from '../../global';
 
 const Auth = ({ navigation }: any) => {
-
-  const roles = [
-    { label: 'Customer', value: 'CUST' },
-    { label: 'Business owner', value: '2' },
-    { label: 'Carrier', value: '3' },
-    { label: 'Administrator', value: '4' },
-  ];
-
+  
+  const [showPassword, setShowPassword] = React.useState<boolean>(true);
+  const [isSignup, setIsSignup] = React.useState(true);
+  
   interface RegFormState {
     username: string;
     email: string;
     password: string;
-    role: string;
+    role: Role;
   }
 
   interface LogFormState {
-    username: string;
-    password: string;
-  }
+      username: string;
+      password: string;
+    }
 
-  const [showPassword, setShowPassword] = React.useState<boolean>(true);
-  const [isSignup, setIsSignup] = React.useState(true);
-  
+  enum Role {
+      CUST = 'CUSTOMER',
+      OWN = 'BUSINESS_OWNER',
+      CAR = 'CARRIER',
+      ADMN = 'ADMINISTRATOR',
+    }
+
   const [regFormState, setRegFormState] = useState<RegFormState>({
     username: '',
     email: '',
     password: '',
-    role: ''
+    role: Role.CUST,
   });
 
   const [logFormState, setLogFormState] = useState<LogFormState>({
@@ -65,10 +67,6 @@ const Auth = ({ navigation }: any) => {
   };
 
   const authToggleState = useToggleState();
-
-    const CustIcon = (props: any) => (
-    <Ionicons {...props} name="person-outline" size="30"/>
-  );
   
   const toggleSecureEntry = (): void => {
     setShowPassword(!showPassword);
@@ -83,29 +81,84 @@ const Auth = ({ navigation }: any) => {
     )
   }
 
-  const OwnerIcon = (props: any) => (
-    <Ionicons {...props} name="briefcase-outline" size="30"/>
-  );
-
-  const CarriIcon = (props: any) => (
-    <Ionicons {...props} name="car-outline" size="30"/>
-  );
-
-  const AdminIcon = (props: any) => (
-    <Ionicons {...props} name="shield-outline" size="30"/>
-  );
-
   const [selectedIdx, setSelectedIdx] = React.useState<IndexPath | IndexPath[]>(
     new IndexPath(0)
   );
   
   const onRoleSelect = (index: IndexPath | IndexPath[]): void => {
     if (Array.isArray(index)) {
-      // If multiple items can be selected, handle accordingly (e.g., in a multi-select scenario)
+      // For multi-select scenario (if needed)
     } else {
-      // For a single select scenario, update the role value
-      const selectedRole = roles[index.row].value;
+      // For single-select scenario
+      const selectedRole = Object.values(Role)[index.row];
       setRegFormState({ ...regFormState, role: selectedRole });
+    }
+  };
+
+  const SIGNUP_MUTATION = gql`
+  mutation Signup($registerInput: RegisteringUserInput!) {
+    signup(registerInput: $registerInput) {
+      uid
+      _id
+      username
+      email
+      password
+      role
+      token
+    }
+  }
+  `;
+
+  const SIGNIN_MUTATION = gql`
+  mutation Signin($signInInput: LogInInput!) {
+    signin(signInInput: $signInInput) {
+      username
+      email
+      token
+    }
+  }
+  `;
+  
+  const [signupMutation] = useMutation(SIGNUP_MUTATION);
+  const [signinMutation] = useMutation(SIGNIN_MUTATION);
+
+  const handleSignup = async () => {
+    try {
+      const { data } = await signupMutation({
+        variables: {
+          registerInput: {
+            username: regFormState.username,
+            email: regFormState.email,
+            password: regFormState.password,
+            role: regFormState.role,
+          },
+        },
+      });
+  
+      console.log('Signup Successful:', data.signup);
+      // Handle success, e.g., navigate to another screen or display a success message.
+    } catch (error:any) {
+      console.error('Signup Error:', error.message);
+      // Handle error, e.g., display an error message to the user.
+    }
+  };
+
+  const handleSignin = async () => {
+    try {
+      const { data } = await signinMutation({
+        variables: {
+          signInInput: {
+            username: logFormState.username,
+            password: logFormState.password,
+          },
+        },
+      });
+  
+      console.log('Signin Successful:', data.signin);
+      // Handle success, e.g., navigate to another screen or store the user token in a state.
+    } catch (error:any) {
+      console.error('Signin Error:', error.message);
+      // Handle error, e.g., display an error message to the user.
     }
   };
 
@@ -122,49 +175,32 @@ const Auth = ({ navigation }: any) => {
 
         <Toggle status="info" {...authToggleState} />
 
-        
-        <Input style={styles.input} label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} />
+        <Input style={styles.input} label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, username: text }) : setLogFormState({ ...logFormState, username: text })}}/>
 
         {isSignup && (
         <>
-        <Input style={styles.input} label="email" placeholder="Enter an email" value={regFormState.email} />
+        <Input style={styles.input} label="email" placeholder="Enter an email" value={regFormState.email} onChangeText={(text)=> setRegFormState({...regFormState, email: text})}/>
         </>
         )}
 
-        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} value={isSignup ? regFormState.password : logFormState.password}/>
+        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} value={isSignup ? regFormState.password : logFormState.password} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, password: text }) : setLogFormState({ ...logFormState, password: text })}}/>
         
         {isSignup && (
         <>
-        <Input style={styles.input} label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword}/>
+        <Input style={styles.input} label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} />
 
         <Select
           label="Role"
           caption="Please select a role before you submit"
           style={styles.select}
           selectedIndex={selectedIdx}
-          onSelect={(index) => setSelectedIdx(index)}
+          onSelect={onRoleSelect}
           placeholder="Purpose"
         >
-          <SelectItem
-            title="Customer"
-            accessoryLeft={CustIcon}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-          />
-          <SelectItem
-            title="Owner"
-            accessoryLeft={OwnerIcon}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-          />
-          <SelectItem
-            title="Carrier"
-            accessoryLeft={CarriIcon}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-          />
-          <SelectItem
-            title="Administrator"
-            accessoryLeft={AdminIcon}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
-          />
+          <SelectItem title="Customer" accessoryLeft={CustIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Owner" accessoryLeft={OwnerIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Carrier" accessoryLeft={CarriIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Administrator" accessoryLeft={AdminIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
         </Select>
         </>
         )}
@@ -172,6 +208,7 @@ const Auth = ({ navigation }: any) => {
         <Button
         appearance='filled'
         style={styles.button}
+        onPress={isSignup ? handleSignup : handleSignin}
         >
           Submit
         </Button>
