@@ -37,10 +37,10 @@ const Auth = ({ navigation }: any) => {
     }
 
   enum Role {
-      CUST = 'CUSTOMER',
-      OWN = 'BUSINESS_OWNER',
-      CAR = 'CARRIER',
-      ADMN = 'ADMINISTRATOR',
+      CUST,
+      OWN,
+      CAR,
+      ADMN,
     }
 
   const [regFormState, setRegFormState] = useState<RegFormState>({
@@ -124,6 +124,7 @@ const Auth = ({ navigation }: any) => {
 
   const handleSignup = async () => {
     try {
+      
       const { data } = await signupMutation({
         variables: {
           registerInput: {
