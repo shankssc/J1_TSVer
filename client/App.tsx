@@ -9,7 +9,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from './src/pages/Auth/Auth';
 import client from './src/services/apollo-client';
-
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ LogBox.ignoreAllLogs();
 
 export default function App() {
   return (
+    <Provider store={store}>
     <ApolloProvider client={client}>
     <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
       <NavigationContainer>
@@ -30,6 +32,7 @@ export default function App() {
       </NavigationContainer>
     </ApplicationProvider>
     </ApolloProvider>
+    </Provider>
   );
 }
 

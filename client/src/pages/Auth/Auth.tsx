@@ -17,6 +17,7 @@ import styles from './styles';
 import { Ionicons } from '@expo/vector-icons';
 import { CustIcon,OwnerIcon,CarriIcon,AdminIcon } from './Icons';
 import { useMutation, gql } from '@apollo/client';
+import { SIGNIN_MUTATION, SIGNUP_MUTATION } from './operations';
 // import { RegFormState, LogFormState, Role } from '../../global';
 
 const Auth = ({ navigation }: any) => {
@@ -95,36 +96,12 @@ const Auth = ({ navigation }: any) => {
     }
   };
 
-  const SIGNUP_MUTATION = gql`
-  mutation Signup($registerInput: RegisteringUserInput!) {
-    signup(registerInput: $registerInput) {
-      uid
-      _id
-      username
-      email
-      password
-      role
-      token
-    }
-  }
-  `;
 
-  const SIGNIN_MUTATION = gql`
-  mutation Signin($signInInput: LogInInput!) {
-    signin(signInInput: $signInInput) {
-      username
-      email
-      token
-    }
-  }
-  `;
-  
   const [signupMutation] = useMutation(SIGNUP_MUTATION);
   const [signinMutation] = useMutation(SIGNIN_MUTATION);
 
   const handleSignup = async () => {
     try {
-      
       const { data } = await signupMutation({
         variables: {
           registerInput: {
@@ -153,8 +130,10 @@ const Auth = ({ navigation }: any) => {
             password: logFormState.password,
           },
         },
+        
       });
-  
+      // @ts-ignore
+      console.log("Token is ", localStorage.getItem('token') || null);
       console.log('Signin Successful:', data.signin);
       // Handle success, e.g., navigate to another screen or store the user token in a state.
     } catch (error:any) {
