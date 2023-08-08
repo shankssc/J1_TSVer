@@ -17,6 +17,7 @@ export const SIGNUP_MUTATION = gql`
 export const SIGNIN_MUTATION = gql`
   mutation Signin($signInInput: LogInInput!) {
     signin(signInInput: $signInInput) {
+      _id
       username
       email
       token

@@ -16,15 +16,23 @@ import {
 import styles from './styles';
 import { Ionicons } from '@expo/vector-icons';
 import { CustIcon,OwnerIcon,CarriIcon,AdminIcon } from './Icons';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { SIGNIN_MUTATION, SIGNUP_MUTATION } from './operations';
-// import { RegFormState, LogFormState, Role } from '../../global';
+import { useDispatch, useSelector } from "react-redux";
+import { auth, selectUser } from '../../reducers/user';
+
 
 const Auth = ({ navigation }: any) => {
   
   const [showPassword, setShowPassword] = React.useState<boolean>(true);
   const [isSignup, setIsSignup] = React.useState(true);
   
+  const dispatch = useDispatch();
+
+  const userInfo = useSelector(selectUser);
+
+  console.log("Store is ",userInfo);
+
   interface RegFormState {
     username: string;
     email: string;
@@ -35,15 +43,22 @@ const Auth = ({ navigation }: any) => {
   interface LogFormState {
       username: string;
       password: string;
-    }
-
+  }
+  
   enum Role {
       CUST,
       OWN,
       CAR,
       ADMN,
-    }
-
+  }
+  
+  interface UserSession {
+      _id: string;
+      username: string;
+      email: string;
+      token: string;
+  }
+  
   const [regFormState, setRegFormState] = useState<RegFormState>({
     username: '',
     email: '',
@@ -114,6 +129,13 @@ const Auth = ({ navigation }: any) => {
       });
   
       console.log('Signup Successful:', data.signup);
+      const payload: UserSession = {
+        _id: data.signin?._id,
+        username: data.signin?.username,
+        email: data.signin?.email,
+        token: data.signin?.token
+      }
+      dispatch(auth(payload));
       // Handle success, e.g., navigate to another screen or display a success message.
     } catch (error:any) {
       console.error('Signup Error:', error.message);
@@ -135,6 +157,13 @@ const Auth = ({ navigation }: any) => {
       // @ts-ignore
       console.log("Token is ", localStorage.getItem('token') || null);
       console.log('Signin Successful:', data.signin);
+      const payload: UserSession = {
+        _id: data.signin?._id,
+        username: data.signin?.username,
+        email: data.signin?.email,
+        token: data.signin?.token
+      }
+      dispatch(auth(payload));
       // Handle success, e.g., navigate to another screen or store the user token in a state.
     } catch (error:any) {
       console.error('Signin Error:', error.message);

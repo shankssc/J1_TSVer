@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import store from '../store';
+//import store from '../store';
 
-type RootState = ReturnType<typeof store.getState>;
+//type RootState = ReturnType<typeof store.getState>;
 
 interface UserSession {
-    id: string;
+    _id: string;
     username: string;
     email: string;
     token: string;
 }
 
 const initialState: UserSession = {
-    id: '',
+    _id: '',
     username: '',
     email: '',
     token: ''
@@ -24,8 +24,9 @@ const userSlice = createSlice({
         auth: (state, action: PayloadAction<UserSession>) => {
             state.username = action.payload.username;
             state.email = action.payload.email;
-            state.id = action.payload.id;
+            state._id = action.payload._id;
             state.token = action.payload.token;
+            // @ts-ignore
             localStorage.setItem('token', action.payload.token);
         },
 
@@ -39,4 +40,4 @@ export const { auth, logout } = userSlice.actions;
 
 export default userSlice;
 
-export const selectUser = (state: RootState): UserSession => state.user;
+export const selectUser = (state: any): UserSession => state.user;

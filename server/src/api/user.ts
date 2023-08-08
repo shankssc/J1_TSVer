@@ -152,7 +152,7 @@ class UserResolver {
     }
 
     @Mutation(() => UserType)
-    async signin(@Arg('signInInput') signInInput:LogInInput): Promise<Pick<UserType, 'username' | 'email' | 'token'>> {
+    async signin(@Arg('signInInput') signInInput:LogInInput): Promise<Pick<UserType, '_id' | 'username' | 'email' | 'token'>> {
         const { username, password } = signInInput;
 
         if (!username  || !password) {
@@ -181,6 +181,7 @@ class UserResolver {
           activeUser.token = jwt
 
           return {
+            _id: activeUser._id,
             username: activeUser.username,
             email: activeUser.email,
             token: jwt,

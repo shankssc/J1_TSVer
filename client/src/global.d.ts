@@ -1,18 +1,31 @@
-interface RegFormState {
-    username: string;
-    email: string;
-    password: string;
-    role: Role;
-  }
+export {};
 
-interface LogFormState {
-    username: string;
-    password: string;
-  }
+declare global {
 
-enum Role {
-    CUST = 'CUSTOMER',
-    OWN = 'BUSINESS_OWNER',
-    CAR = 'CARRIER',
-    ADMN = 'ADMINISTRATOR',
-  }
+    interface RegFormState {
+        username: string;
+        email: string;
+        password: string;
+        role: Role;
+    }
+
+    interface LogFormState {
+        username: string;
+        password: string;
+    }
+
+    enum Role {
+        CUST,
+        OWN,
+        CAR,
+        ADMN,
+    }
+
+    interface UserSession {
+        _id: string;
+        username: string;
+        email: string;
+        token: string;
+    }
+
+}
