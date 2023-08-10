@@ -11,6 +11,7 @@ import Auth from './src/pages/Auth/Auth';
 import client from './src/services/apollo-client';
 import { Provider } from 'react-redux';
 import store from './src/store';
+import appThemeCoolors from './src/styles/ThemePalette6'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,7 @@ export default function App() {
   return (
     <Provider store={store}>
     <ApolloProvider client={client}>
-    <ApplicationProvider {...eva} theme={{ ...eva.light, ...theme }}>
+    <ApplicationProvider {...eva} theme={appThemeCoolors}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Auth">
           <Stack.Screen name="Auth" component={Auth} />

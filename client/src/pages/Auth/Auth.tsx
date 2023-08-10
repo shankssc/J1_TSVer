@@ -1,4 +1,4 @@
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import React, { useState } from 'react';
 import {
   Select,
@@ -10,7 +10,6 @@ import {
   Avatar,
   Toggle,
   ToggleProps,
-  Input,
   Button
 } from '@ui-kitten/components';
 import styles from './styles';
@@ -20,7 +19,7 @@ import { useMutation } from '@apollo/client';
 import { SIGNIN_MUTATION, SIGNUP_MUTATION } from './operations';
 import { useDispatch, useSelector } from "react-redux";
 import { auth, selectUser } from '../../reducers/user';
-
+import MyInput from './MyInput';
 
 const Auth = ({ navigation }: any) => {
   
@@ -29,9 +28,9 @@ const Auth = ({ navigation }: any) => {
   
   const dispatch = useDispatch();
 
-  const userInfo = useSelector(selectUser);
+  // const userInfo = useSelector(selectUser);
 
-  console.log("Store is ",userInfo);
+  // console.log("Store is ",userInfo);
 
   interface RegFormState {
     username: string;
@@ -92,7 +91,7 @@ const Auth = ({ navigation }: any) => {
     return (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
       <Ionicons {...props}
-       name={showPassword ? 'eye-off' : 'eye'} size="55"/>
+       name={showPassword ? 'eye-off' : 'eye'} size={22}/>
     </TouchableWithoutFeedback>
     )
   }
@@ -172,6 +171,11 @@ const Auth = ({ navigation }: any) => {
   };
 
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }} // Make sure the KeyboardAvoidingView takes the full screen height
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+    <ScrollView>
     <Layout style={styles.container}>
       <Avatar
         style={styles.avatar}
@@ -184,20 +188,20 @@ const Auth = ({ navigation }: any) => {
 
         <Toggle status="info" {...authToggleState} />
 
-        <Input style={styles.input} label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, username: text }) : setLogFormState({ ...logFormState, username: text })}}/>
+        <MyInput label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, username: text }) : setLogFormState({ ...logFormState, username: text })}}/>
 
         {isSignup && (
         <>
-        <Input style={styles.input} label="email" placeholder="Enter an email" value={regFormState.email} onChangeText={(text)=> setRegFormState({...regFormState, email: text})}/>
+        <MyInput label="email" placeholder="Enter an email" value={regFormState.email} onChangeText={(text)=> setRegFormState({...regFormState, email: text})}/>
         </>
         )}
 
-        <Input style={styles.input} label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} value={isSignup ? regFormState.password : logFormState.password} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, password: text }) : setLogFormState({ ...logFormState, password: text })}}/>
+        <MyInput label="password" placeholder="Enter a password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} value={isSignup ? regFormState.password : logFormState.password} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, password: text }) : setLogFormState({ ...logFormState, password: text })}}/>
         
         {isSignup && (
         <>
-        <Input style={styles.input} label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} />
-
+        <MyInput  label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} />
+        
         <Select
           label="Role"
           caption="Please select a role before you submit"
@@ -213,7 +217,7 @@ const Auth = ({ navigation }: any) => {
         </Select>
         </>
         )}
-
+        
         <Button
         appearance='filled'
         style={styles.button}
@@ -223,6 +227,8 @@ const Auth = ({ navigation }: any) => {
         </Button>
       </Card>
     </Layout>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
