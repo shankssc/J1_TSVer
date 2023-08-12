@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: appThemeCoolors.colors.background,
     },
 
     input: {
@@ -31,8 +32,12 @@ const styles = StyleSheet.create({
 
     select: {
         marginTop: 10,
-        marginBottom: 10,
-        
+        marginBottom: 10,     
+    },
+
+    selectLabel: {
+        color: appThemeCoolors.colors.accent,
+        marginBottom: 1,
     },
 
     button: {
@@ -41,7 +46,21 @@ const styles = StyleSheet.create({
         backgroundColor: appThemeCoolors.colors.accent,
     },
 
-    
+    text: {
+        alignSelf: 'center',
+        color: appThemeCoolors.colors.accent,
+        
+    },
+
+    toggle: {
+        position: 'absolute',
+        top: 10,
+        right: 25,
+    },
+
+    buttonText: {
+        color: appThemeCoolors.colors.text3,
+    },
 })
 
 

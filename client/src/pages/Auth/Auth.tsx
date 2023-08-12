@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth, selectUser } from '../../reducers/user';
 import MyInput from './MyInput';
 
+
 const Auth = ({ navigation }: any) => {
   
   const [showPassword, setShowPassword] = React.useState<boolean>(true);
@@ -184,9 +185,9 @@ const Auth = ({ navigation }: any) => {
         size="giant"
       />
       <Card style={styles.card}>
-        <Text category="h6">{isSignup ? 'Sign up' : 'Sign in'}</Text>
+        <Text category="h6" style={styles.text}>{isSignup ? 'Sign up' : 'Sign in'}</Text>
 
-        <Toggle status="info" {...authToggleState} />
+        <Toggle status="info" {...authToggleState} style={styles.toggle}/>
 
         <MyInput label="username" placeholder="Enter a username" value={isSignup?regFormState.username : logFormState.username} onChangeText={(text) => {isSignup ? setRegFormState({ ...regFormState, username: text }) : setLogFormState({ ...logFormState, username: text })}}/>
 
@@ -203,8 +204,8 @@ const Auth = ({ navigation }: any) => {
         <MyInput  label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} />
         
         <Select
-          label="Role"
-          caption="Please select a role before you submit"
+          label={() => <Text style={styles.selectLabel}>Role</Text>}
+          caption={() => <Text style={styles.selectLabel}>Please select a role before you submit</Text>}
           style={styles.select}
           selectedIndex={selectedIdx}
           onSelect={onRoleSelect}
@@ -223,7 +224,7 @@ const Auth = ({ navigation }: any) => {
         style={styles.button}
         onPress={isSignup ? handleSignup : handleSignin}
         >
-          Submit
+          <Text style={styles.buttonText}>Submit</Text>
         </Button>
       </Card>
     </Layout>
