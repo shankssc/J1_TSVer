@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, InputProps, Text } from '@ui-kitten/components';
 import { ViewStyle } from 'react-native';
 import styles from './styles';
-import appThemeCoolors from '../../styles/ThemePalette6';
+import appThemeColors from '../../styles/ThemePalette6';
 
 interface MyInputProps extends InputProps {
   label: string;
@@ -10,7 +10,7 @@ interface MyInputProps extends InputProps {
   value: string;
   onChangeText: (text: string) => void;
   containerStyle?: ViewStyle;
-  placeholderTextColor?: string;
+  placeholderTextColor?: string; // Custom prop for placeholder text color
 }
 
 const MyInput: React.FC<MyInputProps> = ({
@@ -19,9 +19,11 @@ const MyInput: React.FC<MyInputProps> = ({
   value,
   onChangeText,
   containerStyle,
-  placeholderTextColor = appThemeCoolors.colors.accent,
+  placeholderTextColor = appThemeColors.colors.accent,
   ...props
 }) => {
+  const inputTextColor = appThemeColors.colors.accent; // Default input text color
+
   return (
     <>
       <Text style={{ color: placeholderTextColor, marginBottom: 1 }}>
@@ -31,7 +33,9 @@ const MyInput: React.FC<MyInputProps> = ({
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
+        textStyle={{ color: inputTextColor }} // Set default input text color
         style={[styles.input, containerStyle]}
+        placeholderTextColor={placeholderTextColor}
         {...props}
       />
     </>

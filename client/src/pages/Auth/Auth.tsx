@@ -207,9 +207,9 @@ const Auth = ({ navigation }: any) => {
           label={() => <Text style={styles.selectLabel}>Role</Text>}
           caption={() => <Text style={styles.selectLabel}>Please select a role before you submit</Text>}
           style={styles.select}
+          placeholder="Purpose"
           selectedIndex={selectedIdx}
           onSelect={onRoleSelect}
-          placeholder="Purpose"
         >
           <SelectItem title="Customer" accessoryLeft={CustIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
           <SelectItem title="Owner" accessoryLeft={OwnerIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
@@ -220,11 +220,11 @@ const Auth = ({ navigation }: any) => {
         )}
         
         <Button
-        appearance='filled'
+        appearance='outline'
         style={styles.button}
         onPress={isSignup ? handleSignup : handleSignin}
         >
-          <Text style={styles.buttonText}>Submit</Text>
+          <Text style={styles.buttonText}>SUBMIT</Text>
         </Button>
       </Card>
     </Layout>
