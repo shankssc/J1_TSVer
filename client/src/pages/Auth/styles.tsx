@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
 
     select: {
         marginTop: 10,
-        marginBottom: 10,     
+        marginBottom: 10,
+             
     },
 
     selectLabel: {

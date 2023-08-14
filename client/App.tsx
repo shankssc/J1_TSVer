@@ -4,10 +4,10 @@ import globalStyles from './src/styles/globalStyles';
 import * as eva from '@eva-design/eva';
 import { ApolloProvider } from '@apollo/client';
 import { ApplicationProvider, Layout, Text} from '@ui-kitten/components';
-import {default as theme} from './src/styles/custom-theme-2.json';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Auth from './src/pages/Auth/Auth';
+import Home from './src/pages/Home/Home';
 import client from './src/services/apollo-client';
 import { Provider } from 'react-redux';
 import store from './src/store';
@@ -27,8 +27,9 @@ export default function App() {
     <ApolloProvider client={client}>
     <ApplicationProvider {...eva} theme={appThemeCoolors}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Auth" component={Auth} />
+          <Stack.Screen name="Home" component={Home} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>

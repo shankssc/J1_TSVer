@@ -20,6 +20,7 @@ import { SIGNIN_MUTATION, SIGNUP_MUTATION } from './operations';
 import { useDispatch, useSelector } from "react-redux";
 import { auth, selectUser } from '../../reducers/user';
 import MyInput from './MyInput';
+import Home from '../Home/Home';
 
 
 const Auth = ({ navigation }: any) => {
@@ -139,6 +140,7 @@ const Auth = ({ navigation }: any) => {
         token: data.signin?.token
       }
       dispatch(auth(payload));
+      navigation.navigate(Home);
       // Handle success, e.g., navigate to another screen or display a success message.
     } catch (error:any) {
       console.error('Signup Error:', error.message);
@@ -167,6 +169,7 @@ const Auth = ({ navigation }: any) => {
         token: data.signin?.token
       }
       dispatch(auth(payload));
+      navigation.navigate(Home);
       // Handle success, e.g., navigate to another screen or store the user token in a state.
     } catch (error:any) {
       console.error('Signin Error:', error.message);
@@ -207,18 +210,18 @@ const Auth = ({ navigation }: any) => {
         <MyInput  label="confirm password" placeholder="Repeat your password" accessoryRight={renderPassIcon} secureTextEntry={showPassword} />
         
         <Select
-      label={() => <Text style={styles.selectLabel}>Role</Text>}
-      caption={() => <Text style={styles.selectLabel}>Please select a role before you submit</Text>}
-      style={styles.select}
-      placeholder="Purpose"
-      selectedIndex={selectedRoleState.selectedIndex} // Use the selected index from the custom hook
-      onSelect={onRoleSelect} // Use the onRoleSelect function
-    >
-      <SelectItem title="Customer" accessoryLeft={CustIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
-      <SelectItem title="Owner" accessoryLeft={OwnerIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
-      <SelectItem title="Carrier" accessoryLeft={CarriIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
-      <SelectItem title="Administrator" accessoryLeft={AdminIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
-    </Select>
+          label={() => <Text style={styles.selectLabel}>Role</Text>}
+          caption={() => <Text style={styles.selectLabel}>Please select a role before you submit</Text>}
+          style={styles.select}
+          placeholder="Purpose"
+          selectedIndex={selectedRoleState.selectedIndex} // Use the selected index from the custom hook
+          onSelect={onRoleSelect} // Use the onRoleSelect function
+        >
+          <SelectItem title="Customer" accessoryLeft={CustIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Owner" accessoryLeft={OwnerIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Carrier" accessoryLeft={CarriIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+          <SelectItem title="Administrator" accessoryLeft={AdminIcon} style={{ flexDirection: 'row', alignItems: 'center' }} />
+        </Select>
         </>
         )}
         

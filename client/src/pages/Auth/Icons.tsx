@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
 
 export const CustIcon = (props: any) => (
     <Ionicons {...props} name="person-outline" size={20}/>
