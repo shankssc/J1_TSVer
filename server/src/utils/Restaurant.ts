@@ -145,7 +145,7 @@ export default class Rest {
                 {
                     "$pull": {
                         "menu.$[outer].subcategory.$[inner].item": {
-                          "item_name": name
+                          "item_name": item_name
                         },
                     }
                 },

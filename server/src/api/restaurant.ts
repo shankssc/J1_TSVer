@@ -58,7 +58,7 @@ class RestaurantType {
 
 }
 
-// Declaring meny type
+// Declaring menu type
 @ObjectType()
 class Item {
   @Field()

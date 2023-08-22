@@ -34,3 +34,10 @@ export const PickupIcon = (props:any) => (
     <MaterialIcons {...props} name="directions-walk" size={20} color={appThemeCoolors.colors.primary}/>
 );
 
+export const SearchIcon = (props: any) => (
+    <FontAwesome {...props} name="search" size={20} color={appThemeCoolors.colors.primary}/>
+);
+
+export const FilterIcon = (props:any) => (
+    <Ionicons {...props} name="filter-sharp" size={20} color={appThemeCoolors.colors.primary}/>
+);

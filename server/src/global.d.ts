@@ -26,13 +26,33 @@ interface RestaurantInterface extends Document {
     updatedAt: Date;
 }
 
+interface StoreInterface extends Document {
+    uid: string;
+    id?: string;
+    name: string;
+    phone: string;
+    owner: mongoose.Schema.Types.ObjectId;
+    cover?: string;
+    address: string;
+    catalog: StoreMenuInterface[];
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 interface MenuInterface {
     uid: string;
     id?: string;
     category_name?: string;
     subcategory: SubcategoryInterface[];
 }
-  
+
+interface StoreMenuInterface {
+    uid: string;
+    id?: string;
+    category_name?: string;
+    item: storeItemInterface[];
+}
+
 interface SubcategoryInterface {
     uid: string;
     id?: string;
@@ -45,6 +65,15 @@ interface ItemInterface {
     item_name?: string;
     calories?: string;
     type?: 'VEGAN' | 'VEG' | 'NON_VEG';
+    item_pic?: string;
+    price?: string;
+}
+
+interface storeItemInterface {
+    uid: string;
+    item_name?: string;
+    description: string;
+    unit?: string;
     item_pic?: string;
     price?: string;
 }
@@ -67,11 +96,26 @@ interface MenuPayload {
     price?: string;
 }
 
+interface CatlogPayload {
+    store_name: string;
+    category_name: string;
+    item_name: string;
+    description?: string;
+    unit?: string;
+    price?: string;
+}
+
 interface DeleteMenuItemPayload {
     restaurant_name: string;
     item_name: string;
     category_name: string;
     subcategory_name: string;
+}
+
+interface DeleteCatlogItemPayload {
+    store_name: string;
+    item_name: string;
+    category_name: string;
 }
 
 interface Context {

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import styles from './styles';
 import { BottomNavigation, BottomNavigationTab, Layout, Text, Icon } from '@ui-kitten/components';
-import { HomeIcon, BrowseIcon, ShopIcon, CartIcon, AccountIcon, LocationIcon, DeliverIcon, PickupIcon } from './Icons';
+import { HomeIcon, BrowseIcon, ShopIcon, CartIcon, AccountIcon, LocationIcon, SearchIcon } from './Icons';
 import CurrentLocation from './GeoLoc';
 import { View,TouchableWithoutFeedback  } from 'react-native';
 import DeliveryToggle from './DeliveryToggle';
+import SearchBar from './SearchBar';
 
 const Home = ({ navigation }: any): React.ReactElement => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
+  
   return (
     <Layout style={styles.container}>
       <View style={styles.topLeftSection}>
@@ -21,7 +23,9 @@ const Home = ({ navigation }: any): React.ReactElement => {
     </View>
     </View>
       </View>
-
+      <View style={styles.searchContainer}>
+        <SearchBar />
+      </View>
       <Layout style={styles.bottomNavigationContainer}>
       
         <BottomNavigation

@@ -40,6 +40,11 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     width: '45%'
   },
+  searchContainer: {
+    //alignItems: 'center',
+    width: '90%',
+    alignSelf: 'center'
+  }
 });
 
 export default styles;
